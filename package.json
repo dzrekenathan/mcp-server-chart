@@ -8,9 +8,9 @@
     "./sdk": "./build/sdk.js"
   },
   "scripts": {
-    "prebuild": "rm -rf build/*",
+    "prebuild": "rmdir /s /q build || mkdir build",
     "build": "tsc && tsc-alias -p tsconfig.json",
-    "postbuild": "chmod +x build/index.js",
+    "postbuild": "node -e \"require('fs').chmodSync('build/index.js', 0o755);\"",
     "start": "npx @modelcontextprotocol/inspector node build/index.js",
     "prepare": "husky && npm run build",
     "prepublishOnly": "npm run build",
@@ -30,17 +30,8 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "files": [
-    "build"
-  ],
-  "keywords": [
-    "antv",
-    "mcp",
-    "data-visualization",
-    "chart",
-    "graph",
-    "map"
-  ],
+  "files": ["build"],
+  "keywords": ["antv", "mcp", "data-visualization", "chart", "graph", "map"],
   "repository": {
     "type": "git",
     "url": "https://github.com/antvis/mcp-server-chart"
