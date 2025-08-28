@@ -8,9 +8,9 @@
     "./sdk": "./build/sdk.js"
   },
   "scripts": {
-    "prebuild": "rmdir /s /q build || mkdir build",
+    "prebuild": "rimraf build && node -e \"require('fs').mkdirSync('build', { recursive: true })\"",
     "build": "tsc && tsc-alias -p tsconfig.json",
-    "postbuild": "node -e \"require('fs').chmodSync('build/index.js', 0o755);\"",
+    "postbuild": "node -e \"if (require('fs').existsSync('build/index.js')) require('fs').chmodSync('build/index.js', 0o755);\"",
     "start": "npx @modelcontextprotocol/inspector node build/index.js",
     "prepare": "husky && npm run build",
     "prepublishOnly": "npm run build",
@@ -57,6 +57,7 @@
     "@types/node": "^22.15.21",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
+    "rimraf": "^6.0.1",
     "tsc-alias": "^1.8.16",
     "typescript": "^5.8.3",
     "vitest": "^3.1.4"
